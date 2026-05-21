@@ -136,7 +136,7 @@ async def start_chat(payload : ChatRequest, current_user : CurrentUser, db: Db )
                     full_response+= token
                     yield token
             
-            await redis.set(key, full_response)
+            await redis.set(key, full_response,ex=300)
             llm_message = Message(conversation_id=conversation.id, role="assistant", content=full_response,
                                 message_metadata={
                                     "user":{
