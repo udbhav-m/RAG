@@ -1,3 +1,5 @@
+import os
+
 from redis.asyncio import Redis
 
 redis_client : Redis | None = None
@@ -5,10 +7,8 @@ redis_client : Redis | None = None
 
 async def init_redis():
     global redis_client
-    redis_client = Redis(
-        host="localhost",
-        port=6379,
-        db=0,
+    redis_client = Redis.from_url(
+        os.environ.get("REDIS_URL", "redis://localhost:6379/0"),
         decode_responses=True,  # returns str instead of bytes
     )
     try:
